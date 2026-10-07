@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IATA - Innovation Across Tech, Health, Education, Energy & Food</title>
+    
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#0E2246',
+                            900: '#0A1931',
+                            950: '#050C1A',
+                        },
+                        gold: {
+                            400: '#F3E5AB',
+                            500: '#D4AF37',
+                            600: '#AA820A',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Custom Glassmorphism & 3D CSS -->
+    <style>
+        body {
+            background-color: #050C1A;
+            color: #F8FAFC;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Panels */
+        .glass-panel {
+            background: rgba(14, 34, 70, 0.45);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-nav {
+            background: rgba(5, 12, 26, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        /* Gold Founder Card Highlights */
+        .founder-card {
+            border: 2px solid rgba(212, 175, 55, 0.8);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.25), inset 0 0 15px rgba(212, 175, 55, 0.1);
+        }
+
+        .gold-text-glow {
+            text-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+        }
+
+        .gold-gradient-bg {
+            background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%);
+        }
+
+        .gold-border-glow {
+            border-color: #D4AF37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        /* 3D Tilt Perspective Container */
+        .tilt-container {
+            perspective: 1000px;
+        }
+
+        .tilt-card {
+            transition: transform 0.15s ease-out, box-shadow 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .tilt-card-content {
+            transform: translateZ(30px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050C1A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0E2246;
+            border-radius: 4px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+
+        /* Canvas Overlay */
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: auto;
+        }
+
+        /* Acknowledge banner */
+        .acknowledge-banner {
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+            border-left: 3px solid #D4AF37;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-gold-500 selection:text-navy-950">
+
+    <!-- Navigation Bar -->
+    <header class="fixed top-0 left-0 w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl gold-gradient-bg flex items-center justify-center font-black text-navy-950 text-xl shadow-lg shadow-gold-500/20 group-hover:scale-105 transition-transform">
+                        I
+                    </div>
+                    <div>
+                        <span class="text-2xl font-extrabold tracking-wider text-white">IATA</span>
+                        <span class="block text-[10px] font-semibold text-gold-500 tracking-widest uppercase -mt-1">Innovation Africa</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                    <a href="#about" class="hover:text-gold-500 transition-colors">About</a>
+                    <a href="#departments" class="hover:text-gold-500 transition-colors">Departments</a>
+                    <a href="#featured" class="hover:text-gold-500 transition-colors">Featured Platform</a>
+                    <a href="#team" class="hover:text-gold-500 transition-colors">Founders & Team</a>
+                    <a href="#contact" class="hover:text-gold-500 transition-colors">Contact</a>
+                </nav>
+
+                <!-- Action Button -->
+                <div class="hidden md:flex items-center">
+                    <a href="#contact" class="px-5 py-2.5 rounded-full gold-gradient-bg text-navy-950 font-bold text-sm hover:brightness-110 transition-all shadow-md shadow-gold-500/20 active:scale-95">
+                        Get In Touch
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-white p-2 text-2xl focus:outline-none" aria-label="Toggle Navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-slate-800 px-4 pt-4 pb-6 space-y-3">
+            <a href="#about" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-800/60 hover:text-gold-500 transition-all font-medium">About IATA</a>
+            <a href="#departments" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-800/60 hover:text-gold-500 transition-all font-medium">5 Departments</a>
+            <a href="#featured" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-800/60 hover:text-gold-500 transition-all font-medium">eduvillelearning.africa</a>
+            <a href="#team" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-800/60 hover:text-gold-500 transition-all font-medium">Founders & Team</a>
+            <a href="#contact" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-800/60 hover:text-gold-500 transition-all font-medium">Contact Us</a>
+            <a href="#contact" class="block w-full text-center py-3 rounded-xl gold-gradient-bg text-navy-950 font-bold">Join IATA</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden">
+        <!-- 3D Animated Globe Canvas -->
+        <canvas id="hero-canvas"></canvas>
+
+        <!-- Dynamic Lighting Gradient Overlays -->
+        <div class="absolute inset-0 bg-gradient-to-b from-navy-950/40 via-navy-950/70 to-navy-950 pointer-events-none z-0"></div>
+        <div class="absolute -top-40 -left-40 w-96 h-96 bg-gold-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- Hero Content Overlay -->
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-8 mt-10">
+            <!-- Innovation Tag -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel border border-gold-500/30 text-gold-500 text-xs sm:text-sm font-semibold tracking-wider uppercase shadow-lg shadow-gold-500/10">
+                <span class="w-2 h-2 rounded-full bg-gold-500 animate-ping"></span>
+                Multi-Department Pan-African Innovation
+            </div>
+
+            <!-- Main Headline -->
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white leading-tight">
+                Empowering Africa Through <br class="hidden sm:inline" />
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-gold-400 via-gold-500 to-amber-200 gold-text-glow">
+                    Tech, Health, Education, Energy & Food
+                </span>
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="max-w-3xl mx-auto text-lg sm:text-xl text-slate-300 font-normal leading-relaxed">
+                Founded by <strong class="text-gold-500 font-semibold">Edmore Taroiwa</strong> & <strong class="text-gold-500 font-semibold">Benjamin Nyamukusa</strong>. 
+                IATA unites visionary leaders across 5 strategic sectors to pioneer technological and social transformation across the continent.
+            </p>
+
+            <!-- Acknowledge Banner -->
+            <div class="acknowledge-banner max-w-xl mx-auto rounded-xl px-6 py-3 text-sm font-medium text-gold-400 italic">
+                <i class="fa-solid fa-cross mr-2"></i>
+                "In all things acknowledge Him" — IATA
+            </div>
+
+            <!-- CTA Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                <a href="#featured" class="w-full sm:w-auto px-8 py-4 rounded-xl gold-gradient-bg text-navy-950 font-bold text-base hover:shadow-lg hover:shadow-gold-500/30 transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2">
+                    <span>Explore Flagship Project</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="#team" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-panel text-white font-semibold text-base hover:bg-slate-800/80 hover:border-gold-500/50 transition-all border border-slate-700/80 transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-users text-gold-500"></i>
+                    <span>Meet Founders & Team</span>
+                </a>
+            </div>
+
+            <!-- Quick Metrics Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-12 max-w-4xl mx-auto">
+                <div class="glass-panel p-4 rounded-2xl border-slate-800/80">
+                    <div class="text-3xl font-black text-gold-500">5</div>
+                    <div class="text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">Core Departments</div>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl border-slate-800/80">
+                    <div class="text-3xl font-black text-white">100%</div>
+                    <div class="text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">Pan-African Focus</div>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl border-slate-800/80">
+                    <div class="text-3xl font-black text-gold-500">Active</div>
+                    <div class="text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">Eduville Learning Platform</div>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl border-slate-800/80">
+                    <div class="text-3xl font-black text-white">Founders</div>
+                    <div class="text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">Led & Managed</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 relative z-10 bg-navy-950/90 border-t border-slate-800/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Story Column -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 text-gold-500 font-bold text-sm tracking-widest uppercase">
+                        <i class="fa-solid fa-compass"></i>
+                        <span>About IATA</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold text-white leading-tight">
+                        A Multi-Department Ecosystem Designed for Sustainable Impact
+                    </h2>
+                    <p class="text-slate-300 text-lg leading-relaxed">
+                        <strong>IATA</strong> was co-founded by <strong>Edmore Taroiwa</strong> and <strong>Benjamin Nyamukusa</strong> to solve critical infrastructural, technological, educational, and ecological challenges facing modern Africa.
+                    </p>
+                    <p class="text-slate-400 text-base leading-relaxed">
+                        By integrating specialized leadership across Tech, Health, Education, Energy, and Food, IATA builds modular, high-impact innovations. From proprietary e-learning technology platforms to community health frameworks and green energy initiatives, we translate vision into functional systems.
+                    </p>
+                    <div class="acknowledge-banner rounded-xl px-5 py-3 text-sm font-medium text-gold-400 italic">
+                        <i class="fa-solid fa-cross mr-2"></i>
+                        "In all things acknowledge Him" — the guiding principle behind IATA's mission.
+                    </div>
+                    
+                    <!-- Core Values Checklist -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <div class="flex items-center gap-3 glass-panel p-3.5 rounded-xl border-slate-800">
+                            <div class="w-8 h-8 rounded-lg bg-gold-500/10 flex items-center justify-center text-gold-500">
+                                <i class="fa-solid fa-code"></i>
+                            </div>
+                            <span class="text-sm font-semibold text-slate-200">In-House Tech Development</span>
+                        </div>
+                        <div class="flex items-center gap-3 glass-panel p-3.5 rounded-xl border-slate-800">
+                            <div class="w-8 h-8 rounded-lg bg-gold-500/10 flex items-center justify-center text-gold-500">
+                                <i class="fa-solid fa-heart-pulse"></i>
+                            </div>
+                            <span class="text-sm font-semibold text-slate-200">Community Health Priority</span>
+                        </div>
+                        <div class="flex items-center gap-3 glass-panel p-3.5 rounded-xl border-slate-800">
+                            <div class="w-8 h-8 rounded-lg bg-gold-500/10 flex items-center justify-center text-gold-500">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <span class="text-sm font-semibold text-slate-200">Pan-African Digital Education</span>
+                        </div>
+                        <div class="flex items-center gap-3 glass-panel p-3.5 rounded-xl border-slate-800">
+                            <div class="w-8 h-8 rounded-lg bg-gold-500/10 flex items-center justify-center text-gold-500">
+                                <i class="fa-solid fa-seedling"></i>
+                            </div>
+                            <span class="text-sm font-semibold text-slate-200">Sustainable Food & Energy</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Feature Box -->
+                <div class="lg:col-span-5">
+                    <div class="glass-panel p-8 rounded-3xl border-gold-500/20 relative overflow-hidden group">
+                        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-gold-500/10 rounded-full blur-2xl group-hover:bg-gold-500/20 transition-all"></div>
+                        <h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+                            <i class="fa-solid fa-bullseye text-gold-500"></i>
+                            <span>Our Mission Statement</span>
+                        </h3>
+                        <p class="text-slate-300 italic mb-6 leading-relaxed">
+                            "To engineer accessible, scalable, and cross-sector technology platforms that drive human development, health equity, knowledge sharing, clean energy adoption, and food security throughout Africa."
+                        </p>
+                        <div class="p-4 rounded-2xl bg-navy-950/80 border border-slate-800 space-y-2">
+                            <div class="text-xs text-gold-500 font-bold uppercase tracking-wider">Founders' Vision</div>
+                            <div class="text-sm text-slate-300">
+                                "Technology and collaborative leadership are the catalysts that will unlock limitless African potential."
+                            </div>
+                            <div class="text-xs text-slate-400 font-medium pt-1">
+                                — Edmore Taroiwa & Benjamin Nyamukusa
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5 Departments Section -->
+    <section id="departments" class="py-24 relative z-10 bg-navy-900/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <div class="inline-flex items-center gap-2 text-gold-500 font-bold text-sm tracking-widest uppercase">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>Organizational Pillars</span>
+                </div>
+                <h2 class="text-3xl sm:text-5xl font-black text-white">Our 5 Core Departments</h2>
+                <p class="text-slate-400 text-base">
+                    Each department is headed by specialized leaders committed to advancing innovation and solving real-world challenges.
+                </p>
+            </div>
+
+            <!-- 5 Grid Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- 1. Tech Department -->
+                <div class="tilt-container">
+                    <div class="tilt-card glass-panel rounded-3xl p-8 h-full border-slate-800 hover:border-gold-500/60 transition-all group flex flex-col justify-between">
+                        <div class="tilt-card-content space-y-4">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/20 to-gold-500/20 border border-gold-500/30 flex items-center justify-center text-gold-500 text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+                            <span class="inline-block text-xs font-bold px-3 py-1 rounded-full bg-gold-500/10 text-gold-500 border border-gold-500/20">Lead: Edmore Taroiwa</span>
+                            <h3 class="text-2xl font-bold text-white group-hover:text-gold-500 transition-colors">Tech Department</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">
+                                The digital engine of IATA. Responsible for web architecture, custom learning platforms, software engineering, and digital infrastructure across projects.
+                            </p>
+                        </div>
+                        <div class="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs text-slate-400">
+                            <span>Key Product: eduvillelearning.africa</span>
+                            <i class="fa-solid fa-chevron-right text-gold-500"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Health Department -->
+                <div class="tilt-container">
+                    <div class="tilt-card glass-panel rounded-3xl p-8 h-full border-slate-800 hover:border-gold-500/60 transition-all group flex flex-col justify-between">
+                        <div class="tilt-card-content space-y-4">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-500/20 to-gold-500/20 border border-gold-500/30 flex items-center justify-center text-red-400 text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-heart-pulse"></i>
+                            </div>
+                            <span class="inline-block text-xs font-bold px-3 py-1 rounded-full bg-gold-500/10 text-gold-500 border border-gold-500/20">Lead: Benjamin Nyamukusa</span>
+                            <h3 class="text-2xl font-bold text-white group-hover:text-gold-500 transition-colors">Health Department</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">
+                                Pioneering health tech access, medical literacy, wellness frameworks, and community care strategies to enhance public healthcare standards.
+                            </p>
+                        </div>
+                        <div class="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs text-slate-400">
+                            <span>Focus: Digital Healthcare & Community</span>
+                            <i class="fa-solid fa-chevron-right text-gold-500"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Education Department -->
+                <div class="tilt-container">
+                    <div class="tilt-card glass-panel rounded-3xl p-8 h-full border-slate-800 hover:border-gold-500/60 transition-all group flex flex-col justify-between">
+                        <div class="tilt-card-content space-y-4">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-gold-500/20 border border-gold-500/30 flex items-center justify-center text-emerald-400 text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <span class="inline-block text-xs font-bold px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Head: Sean Masango</span>
+                            <h3 class="text-2xl font-bold text-white group-hover:text-gold-500 transition-colors">Education Department</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">
+                                Curating modern curricula, e-learning methodologies, and academic outreach to empower African scholars and lifelong learners.
+                            </p>
+                        </div>
+                        <div class="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs text-slate-400">
+                            <span>Focus: Pan-African Knowledge Systems</span>
+                            <i class="fa-solid fa-chevron-right text-gold-500"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Energy Department -->
+                <div class="tilt-container">
+                    <div class="tilt-card glass-panel rounded-3xl p-8 h-full border-slate-800 hover:border-gold-500/60 transition-all group flex flex-col justify-between">
+                        <div class="tilt-card-content space-y-4">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500/20 to-gold-500/20 border border-gold-500/30 flex items-center justify-center text-amber-400 text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-bolt"></i>
+                            </div>
+                            <span class="inline-block text-xs font-bold px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Head: Tawananyasha Chipungumberi</span>
+                            <h3 class="text-2xl font-bold text-white group-hover:text-gold-500 transition-colors">Energy Department</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">
+                                Researching and advocating for sustainable energy solutions, clean power distribution, and renewable grid tech for local communities.
+                            </p>
+                        </div>
+                        <div class="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs text-slate-400">
+                            <span>Focus: Sustainable Power & Green Grid</span>
+                            <i class="fa-solid fa-chevron-right text-gold-500"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Food Department -->
+                <div class="tilt-container md:col-span-2 lg:col-span-1">
+                    <div class="tilt-card glass-panel rounded-3xl p-8 h-full border-slate-800 hover:border-gold-500/60 transition-all group flex flex-col justify-between">
+                        <div class="tilt-card-content space-y-4">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500/20 to-gold-500/20 border border-gold-500/30 flex items-center justify-center text-green-400 text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-wheat-awn"></i>
+                            </div>
+                            <span class="inline-block text-xs font-bold px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Head: Charles</span>
+                            <h3 class="text-2xl font-bold text-white group-hover:text-gold-500 transition-colors">Food Department</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">
+                                Driving agri-tech advancement, sustainable food security, efficient supply chains, and nutrition accessibility initiatives.
+                            </p>
+                        </div>
+                        <div class="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs text-slate-400">
+                            <span>Focus: Food Security & Agri-Tech</span>
+                            <i class="fa-solid fa-chevron-right text-gold-500"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Project Showcase Section -->
+    <section id="featured" class="py-24 relative z-10 bg-navy-950 border-t border-slate-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel rounded-3xl p-8 md:p-12 border-2 border-gold-500/40 relative overflow-hidden shadow-2xl shadow-gold-500/10">
+                <!-- Glowing Decorative Elements -->
+                <div class="absolute -top-24 -right-24 w-80 h-80 bg-gold-500/15 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-blue-600/15 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                    <!-- Text & Details -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold-500/10 text-gold-500 text-xs font-bold uppercase tracking-wider border border-gold-500/30">
+                            <i class="fa-solid fa-star"></i>
+                            <span>IATA Flagship Product</span>
+                        </div>
+                        
+                        <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                            eduvillelearning.africa
+                        </h2>
+                        
+                        <p class="text-lg text-slate-200 font-medium leading-relaxed">
+                            A premier pan-African digital learning ecosystem engineered to provide scalable, high-quality educational materials and interactive courses to students across Africa.
+                        </p>
+
+                        <!-- Creator Highlight -->
+                        <div class="p-4 rounded-2xl bg-navy-900/90 border border-gold-500/30 flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl gold-gradient-bg text-navy-950 flex items-center justify-center font-bold text-xl shrink-0">
+                                ET
+                            </div>
+                            <div>
+                                <div class="text-xs text-gold-500 font-bold uppercase tracking-wider">Conceived, Built & Managed By</div>
+                                <div class="text-base font-bold text-white">Edmore Taroiwa <span class="text-slate-400 font-normal text-xs">(Founder & Tech Department Lead)</span></div>
+                                <div class="text-xs text-slate-400">Originator of the eduvillelearning.africa vision & core architect</div>
+                            </div>
+                        </div>
+
+                        <!-- Highlights list -->
+                        <div class="space-y-3 pt-2">
+                            <div class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-gold-500 mt-1"></i>
+                                <span class="text-sm text-slate-300">Modern responsive UI tailored for mobile & desktop African learners.</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-gold-500 mt-1"></i>
+                                <span class="text-sm text-slate-300">Seamless integration between Education and Tech departments.</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-gold-500 mt-1"></i>
+                                <span class="text-sm text-slate-300">Built to enable accessible knowledge distribution across remote regions.</span>
+                            </div>
+                        </div>
+
+                        <!-- External Button Link -->
+                        <div class="pt-4">
+                            <a href="https://eduvillelearning.africa" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 px-8 py-4 rounded-xl gold-gradient-bg text-navy-950 font-extrabold text-base hover:brightness-110 transition-all shadow-xl shadow-gold-500/20 active:scale-95 group">
+                                <span>Visit eduvillelearning.africa</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Visual Tech Mockup Preview -->
+                    <div class="lg:col-span-5">
+                        <div class="relative rounded-2xl p-2 bg-gradient-to-b from-slate-700/50 to-slate-900/80 border border-slate-700/60 shadow-2xl">
+                            <!-- Window Bar -->
+                            <div class="flex items-center gap-2 px-3 py-2 border-b border-slate-800">
+                                <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+                                <span class="text-[11px] text-slate-400 font-mono ml-2 truncate">https://eduvillelearning.africa</span>
+                            </div>
+                            
+                            <!-- Mockup Body -->
+                            <div class="p-6 bg-navy-950 rounded-b-xl space-y-4 text-center">
+                                <div class="w-16 h-16 rounded-2xl bg-gold-500/10 border border-gold-500/30 text-gold-500 flex items-center justify-center text-3xl mx-auto mb-2">
+                                    <i class="fa-solid fa-graduation-cap"></i>
+                                </div>
+                                <h4 class="text-xl font-bold text-white">Eduville Learning Africa</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed">
+                                    Live African online portal empowering students with courses, resources, and collaborative tools.
+                                </p>
+                                <a href="https://eduvillelearning.africa" target="_blank" rel="noopener noreferrer" class="block w-full py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-gold-500 text-xs font-bold transition-colors border border-gold-500/20">
+                                    Launch Live Site <i class="fa-solid fa-external-link ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meet The Founders & Team Section -->
+    <section id="team" class="py-24 relative z-10 bg-navy-900/30 border-t border-slate-800/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <div class="inline-flex items-center gap-2 text-gold-500 font-bold text-sm tracking-widest uppercase">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Leadership & Visionaries</span>
+                </div>
+                <h2 class="text-3xl sm:text-5xl font-black text-white">Meet The Founders & Team</h2>
+                <p class="text-slate-400 text-base">
+                    Interactive 3D profile cards. Hover or drag to tilt and inspect leadership credentials.
+                </p>
+            </div>
+
+            <!-- Founders Grid (Top 2 Highlighted) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                
+                <!-- 1. Edmore Taroiwa (Main Founder & Tech Lead) -->
+                <div class="tilt-container">
+                    <div class="tilt-card glass-panel founder-card rounded-3xl p-8 h-full relative group">
+                        <div class="absolute top-4 right-4 bg-gold-500 text-navy-950 font-black text-[10px] tracking-widest px-3 py-1 rounded-full uppercase shadow-md">
+                            Main Founder & Tech Lead
+                        </div>
+                        <div class="tilt-card-content space-y-4">
+                            <!-- Avatar Circle -->
+                            <div class="w-20 h-20 rounded-2xl gold-gradient-bg flex items-center justify-center text-navy-950 font-black text-3xl shadow-xl shadow-gold-500/20">
+                                ET
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-black text-white gold-text-glow">Edmore Taroiwa</h3>
+                                <p class="text-gold-500 text-sm font-semibold">Tech Department Lead & Co-Founder</p>
+                            </div>
+                            <p class="text-slate-300 text-sm leading-relaxed">
+                                The tech brain behind IATA. Had the original vision for <strong>eduvillelearning.africa</strong>, built it from the ground up, and continues to manage its development. Drives overall software and technical strategy for IATA.
+                            </p>
+                            <div class="pt-4 border-t border-gold-500/20 flex flex-wrap gap-2 text-xs">
+                                <span class="px-2.5 py-1 rounded-md bg-gold-500/10 text-gold-400 border border-gold-500/30">System Architect</span>
+                                <span class="px-2.5 py-1 rounded-md bg-gold-500/10 text-gold-400 border border-gold-500/30">Eduville Originator</span>
+                                <span class="px-2.5 py-1 rounded-md bg-gold-500/10 text-gold-400 border border-gold-500/30">Full-Stack Tech Lead</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Benjamin Nyamukusa (Main Co-Founder & Head of Health) -->
+                <div class="tilt-container">
+                    <div class="tilt-card glass-panel founder-card rounded-3xl p-8 h-full relative group">
+                        <div class="absolute top-4 right-4 bg-gold-500 text-navy-950 font-black text-[10px] tracking-widest px-3 py-1 rounded-full uppercase shadow-md">
+                            Main Co-Founder & Health Lead
+                        </div>
+                        <div class="tilt-card-content space-y-4">
+                            <!-- Avatar Circle -->
+                            <div class="w-20 h-20 rounded-2xl gold-gradient-bg flex items-center justify-center text-navy-950 font-black text-3xl shadow-xl shadow-gold-500/20">
+                                BN
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-black text-white gold-text-glow">Benjamin Nyamukusa</h3>
+                                <p class="text-gold-500 text-sm font-semibold">Health Department Lead & Co-Founder</p>
+                            </div>
+                            <p class="text-slate-300 text-sm leading-relaxed">
+                                Co-founder of IATA and primary visionary for the Health Department. Directs strategic initiatives to merge digital innovation with health literacy and community wellbeing across regional programs.
+                            </p>
+                            <div class="pt-4 border-t border-gold-500/20 flex flex-wrap gap-2 text-xs">
+                                <span class="px-2.5 py-1 rounded-md bg-gold-500/10 text-gold-400 border border-gold-500/30">Co-Founder</span>
+                                <span class="px-2.5 py-1 rounded-md bg-gold-500/10 text-gold-400 border border-gold-500/30">Head of Health</span>
+                                <span class="px-2.5 py-1 rounded-md bg-gold-500/10 text-gold-400 border border-gold-500/30">Community Wellness</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Department Heads Grid (3 Cards) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- 3. Sean Masango -->
+                <div class="tilt-container">
+                    <div class="tilt-card glass-panel rounded-3xl p-6 h-full border-slate-800 hover:border-slate-700 transition-all">
+                        <div class="tilt-card-content space-y-3">
+                            <div class="w-14 h-14 rounded-xl bg-slate-800 text-gold-500 flex items-center justify-center font-bold text-xl border border-slate-700">
+                                SM
+                            </div>
+                            <span class="inline-block text-[11px] font-bold px-2.5 py-0.5 rounded-md bg-slate-800 text-slate-300">Badge: Head of Education</span>
+                            <h4 class="text-xl font-bold text-white">Sean Masango</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                Works in the Education department, collaborating on digital learning solutions alongside Edmore Taroiwa's tech platform architecture.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Tawananyasha Chipungumberi -->
+                <div class="tilt-container">
+                    <div class="tilt-card glass-panel rounded-3xl p-6 h-full border-slate-800 hover:border-slate-700 transition-all">
+                        <div class="tilt-card-content space-y-3">
+                            <div class="w-14 h-14 rounded-xl bg-slate-800 text-gold-500 flex items-center justify-center font-bold text-xl border border-slate-700">
+                                TC
+                            </div>
+                            <span class="inline-block text-[11px] font-bold px-2.5 py-0.5 rounded-md bg-slate-800 text-slate-300">Badge: Head of Energy</span>
+                            <h4 class="text-xl font-bold text-white">Tawananyasha Chipungumberi</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                Leads research and initiatives in clean energy, power distribution efficiency, and green technology adoption.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Charles -->
+                <div class="tilt-container">
+                    <div class="tilt-card glass-panel rounded-3xl p-6 h-full border-slate-800 hover:border-slate-700 transition-all">
+                        <div class="tilt-card-content space-y-3">
+                            <div class="w-14 h-14 rounded-xl bg-slate-800 text-gold-500 flex items-center justify-center font-bold text-xl border border-slate-700">
+                                C
+                            </div>
+                            <span class="inline-block text-[11px] font-bold px-2.5 py-0.5 rounded-md bg-slate-800 text-slate-300">Badge: Head of Food</span>
+                            <h4 class="text-xl font-bold text-white">Charles</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                Spearheads agricultural technology strategies, sustainable food security models, and regional food distribution efficiency.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact / Join Section -->
+    <section id="contact" class="py-24 relative z-10 bg-navy-950 border-t border-slate-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Contact Info -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="inline-flex items-center gap-2 text-gold-500 font-bold text-sm tracking-widest uppercase">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Get In Touch</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-5xl font-black text-white">Join IATA or Partner With Us</h2>
+                    <p class="text-slate-300 text-base leading-relaxed">
+                        Whether you want to join one of our 5 departments, partner on technology projects, or connect with founders Edmore Taroiwa and Benjamin Nyamukusa, reach out directly.
+                    </p>
+
+                    <div class="space-y-4 pt-2">
+                        <!-- Direct WhatsApp Button (using provided number 078 727 9982) -->
+                        <a href="https://wa.me/263787279982?text=Hello%20IATA%20Team,%20I%20would%20like%20to%20connect%20with%20you!" target="_blank" class="flex items-center gap-4 glass-panel p-4 rounded-2xl border-slate-800 hover:border-green-500/50 transition-all group">
+                            <div class="w-12 h-12 rounded-xl bg-green-500/20 text-green-400 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-slate-400 font-medium">Instant Chat — 078 727 9982</div>
+                                <div class="text-base font-bold text-white group-hover:text-green-400 transition-colors">Connect on WhatsApp</div>
+                            </div>
+                        </a>
+
+                        <!-- Direct Email Button (primary) -->
+                        <a href="mailto:ttaroiwa@gmail.com" class="flex items-center gap-4 glass-panel p-4 rounded-2xl border-slate-800 hover:border-gold-500/50 transition-all group">
+                            <div class="w-12 h-12 rounded-xl bg-gold-500/20 text-gold-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-slate-400 font-medium">Official Inquiry</div>
+                                <div class="text-base font-bold text-white group-hover:text-gold-500 transition-colors">ttaroiwa@gmail.com</div>
+                            </div>
+                        </a>
+
+                        <!-- Alternate Email Button -->
+                        <a href="mailto:edmoretaroiwa@gmail.com" class="flex items-center gap-4 glass-panel p-4 rounded-2xl border-slate-800 hover:border-gold-500/50 transition-all group">
+                            <div class="w-12 h-12 rounded-xl bg-gold-500/20 text-gold-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-envelope-open-text"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-slate-400 font-medium">Alternate Contact</div>
+                                <div class="text-base font-bold text-white group-hover:text-gold-500 transition-colors">edmoretaroiwa@gmail.com</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Acknowledge Banner -->
+                    <div class="acknowledge-banner rounded-xl px-5 py-3 text-sm font-medium text-gold-400 italic mt-2">
+                        <i class="fa-solid fa-cross mr-2"></i>
+                        "IATA — in all things acknowledge Him"
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="lg:col-span-7">
+                    <form id="contact-form" class="glass-panel p-8 rounded-3xl border-slate-800 space-y-6">
+                        <h3 class="text-2xl font-bold text-white mb-2">Send Us a Direct Message</h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-300 mb-2">Your Name</label>
+                                <input type="text" required placeholder="John Doe" class="w-full px-4 py-3 rounded-xl bg-navy-950/80 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-gold-500 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-300 mb-2">Email Address</label>
+                                <input type="email" required placeholder="john@example.com" class="w-full px-4 py-3 rounded-xl bg-navy-950/80 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-gold-500 text-sm">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-slate-300 mb-2">Department of Interest</label>
+                            <select class="w-full px-4 py-3 rounded-xl bg-navy-950/80 border border-slate-800 text-slate-200 focus:outline-none focus:border-gold-500 text-sm">
+                                <option>Tech Department (Edmore Taroiwa)</option>
+                                <option>Health Department (Benjamin Nyamukusa)</option>
+                                <option>Education Department (Sean Masango)</option>
+                                <option>Energy Department (Tawananyasha Chipungumberi)</option>
+                                <option>Food Department (Charles)</option>
+                                <option>General Partnership / Founding Inquiry</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-slate-300 mb-2">Message</label>
+                            <textarea rows="4" required placeholder="Tell us how you'd like to collaborate..." class="w-full px-4 py-3 rounded-xl bg-navy-950/80 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-gold-500 text-sm"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 rounded-xl gold-gradient-bg text-navy-950 font-bold text-base hover:brightness-110 transition-all shadow-lg shadow-gold-500/20 active:scale-98">
+                            Send Message to IATA Leadership
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-navy-950 border-t border-slate-800/80 text-slate-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div class="space-y-3 md:col-span-2">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg gold-gradient-bg flex items-center justify-center font-bold text-navy-950 text-base">
+                            I
+                        </div>
+                        <span class="text-xl font-extrabold text-white">IATA</span>
+                    </div>
+                    <p class="text-xs text-slate-400 max-w-sm leading-relaxed">
+                        Innovation Across Tech, Health, Education, Energy & Food. Founded by Edmore Taroiwa & Benjamin Nyamukusa to build Africa's technological and social future.
+                    </p>
+                    <p class="text-xs text-gold-500/80 italic">"In all things acknowledge Him"</p>
+                </div>
+
+                <div>
+                    <h5 class="text-white font-bold mb-3 text-xs uppercase tracking-wider">Quick Links</h5>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#about" class="hover:text-gold-500 transition-colors">About Us</a></li>
+                        <li><a href="#departments" class="hover:text-gold-500 transition-colors">5 Departments</a></li>
+                        <li><a href="https://eduvillelearning.africa" target="_blank" class="hover:text-gold-500 transition-colors">eduvillelearning.africa</a></li>
+                        <li><a href="#team" class="hover:text-gold-500 transition-colors">Leadership Team</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="text-white font-bold mb-3 text-xs uppercase tracking-wider">Connect</h5>
+                    <div class="space-y-2 text-xs">
+                        <a href="https://wa.me/263787279982" class="block text-slate-400 hover:text-gold-500 transition-colors"><i class="fa-brands fa-whatsapp mr-2"></i>WhatsApp: 078 727 9982</a>
+                        <a href="mailto:ttaroiwa@gmail.com" class="block text-slate-400 hover:text-gold-500 transition-colors"><i class="fa-solid fa-envelope mr-2"></i>ttaroiwa@gmail.com</a>
+                        <a href="mailto:edmoretaroiwa@gmail.com" class="block text-slate-400 hover:text-gold-500 transition-colors"><i class="fa-solid fa-envelope mr-2"></i>edmoretaroiwa@gmail.com</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-slate-900 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+                <div>
+                    &copy; <span id="current-year"></span> IATA Organization. All rights reserved.
+                </div>
+                <div class="text-slate-500">
+                    Co-Founded by <span class="text-slate-300">Edmore Taroiwa</span> & <span class="text-slate-300">Benjamin Nyamukusa</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification Box -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 glass-panel border border-gold-500/50 text-white px-6 py-4 rounded-2xl shadow-2xl transition-all duration-300 transform translate-y-24 opacity-0 flex items-center gap-3">
+        <i class="fa-solid fa-circle-check text-gold-500 text-xl"></i>
+        <div>
+            <div class="font-bold text-sm">Message Received!</div>
+            <div class="text-xs text-slate-300">Thank you for connecting with IATA.</div>
+        </div>
+    </div>
+
+    <script>
+        // Set dynamic current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Mobile Navigation Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Contact Form Submission Handler
+        const contactForm = document.getElementById('contact-form');
+        const toast = document.getElementById('toast');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Show toast
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            
+            // Clear form
+            contactForm.reset();
+
+            // Hide toast after 4 seconds
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 4000);
+        });
+
+        // 3D Card Tilt Effect
+        const tiltCards = document.querySelectorAll('.tilt-card');
+
+        tiltCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 12;
+                const rotateY = (centerX - x) / 12;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            });
+        });
+
+        window.addEventListener('load', () => {
+            const canvas = document.getElementById('hero-canvas');
+            const container = canvas.parentElement;
+
+            // Scene, Camera, Renderer
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 18;
+
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Create Wireframe Sphere (Globe)
+            const sphereGeometry = new THREE.IcosahedronGeometry(7, 2);
+            const sphereMaterial = new THREE.MeshBasicMaterial({
+                color: 0xD4AF37,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.25
+            });
+            const globe = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            scene.add(globe);
+
+            // Inner Core Glowing Sphere
+            const coreGeometry = new THREE.IcosahedronGeometry(4.5, 1);
+            const coreMaterial = new THREE.MeshBasicMaterial({
+                color: 0x0E2246,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.4
+            });
+            const core = new THREE.Mesh(coreGeometry, coreMaterial);
+            scene.add(core);
+
+            // Floating Node Particles
+            const particleCount = 400;
+            const particleGeometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+
+            const goldColor = new THREE.Color(0xD4AF37);
+            const blueColor = new THREE.Color(0x3B82F6);
+
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                // Spherical placement
+                const u = Math.random();
+                const v = Math.random();
+                const theta = u * 2.0 * Math.PI;
+                const phi = Math.acos(2.0 * v - 1.0);
+                const r = 8 + Math.random() * 6;
+
+                positions[i] = r * Math.sin(phi) * Math.cos(theta);
+                positions[i + 1] = r * Math.sin(phi) * Math.sin(theta);
+                positions[i + 2] = r * Math.cos(phi);
+
+                // Alternate gold & blue
+                const mixedColor = Math.random() > 0.5 ? goldColor : blueColor;
+                colors[i] = mixedColor.r;
+                colors[i + 1] = mixedColor.g;
+                colors[i + 2] = mixedColor.b;
+            }
+
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const particleMaterial = new THREE.PointsMaterial({
+                size: 0.15,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            const particles = new THREE.Points(particleGeometry, particleMaterial);
+            scene.add(particles);
+
+            // Outer Orbit Ring
+            const ringGeometry = new THREE.TorusGeometry(11, 0.03, 16, 100);
+            const ringMaterial = new THREE.MeshBasicMaterial({
+                color: 0xD4AF37,
+                transparent: true,
+                opacity: 0.3
+            });
+            const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+            ring.rotation.x = Math.PI / 3;
+            scene.add(ring);
+
+            // Interactive Mouse Movement Tracking
+            let mouseX = 0;
+            let mouseY = 0;
+            let targetX = 0;
+            let targetY = 0;
+
+            const windowHalfX = window.innerWidth / 2;
+            const windowHalfY = window.innerHeight / 2;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX - windowHalfX) * 0.0005;
+                mouseY = (event.clientY - windowHalfY) * 0.0005;
+            });
+
+            // Touch support for mobile devices
+            document.addEventListener('touchmove', (event) => {
+                if (event.touches.length > 0) {
+                    mouseX = (event.touches[0].clientX - windowHalfX) * 0.0005;
+                    mouseY = (event.touches[0].clientY - windowHalfY) * 0.0005;
+                }
+            });
+
+            // Window Resize Listener
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            // Animation Loop
+            function animate() {
+                requestAnimationFrame(animate);
+
+                targetX += (mouseX - targetX) * 0.05;
+                targetY += (mouseY - targetY) * 0.05;
+
+                // Rotations
+                globe.rotation.y += 0.003;
+                globe.rotation.x += 0.001;
+
+                core.rotation.y -= 0.005;
+
+                particles.rotation.y += 0.001;
+                ring.rotation.z += 0.002;
+
+                // Camera subtle reaction to mouse
+                camera.position.x += (targetX * 5 - camera.position.x) * 0.05;
+                camera.position.y += (-targetY * 5 - camera.position.y) * 0.05;
+                camera.lookAt(scene.position);
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+        });
+    </script>
+</body>
+  </html>
